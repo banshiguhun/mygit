@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lenovo.dao.IWxMassTakeInfoDao">
+	<!-- 分页+模糊查询 WxMassTaskInfo 列表 -->
+	<select id="findWxMassTaskInfoPage" resultType="com.lenovo.common.entity.cms.WxMassTaskInfo">
+		select *
+		from wx_mass_task_info
+		<where>
+			<if test="key!=null and key!=''">
+				position(#{key} in name)
+			</if>
+		</where>
+		order by create_time desc;
+	</select>
+	<!-- 添加WxMassTaskInfo 参数WxMassTaskInfo -->
+	<insert id="insertWxMassTaskInfo" parameterType="com.lenovo.common.entity.cms.WxMassTaskInfo">
+		insert into
+		wx_mass_task_info
+		(
+		`name`,
+		`msg_id`,
+		`msg_name`,
+		`send_type`,
+		`status`,
+		`openids`,
+		`user_label`,
+		`create_time`,
+		`update_time`
+		)
+		values
+		(
+		#{name,jdbcType=VARCHAR},
+		#{msgId,jdbcType=INTEGER},
+		#{msgName,jdbcType=VARCHAR},
+		#{sendType,jdbcType=INTEGER},
+		#{status,jdbcType=INTEGER},
+		#{openids,jdbcType=VARCHAR},
+		#{userLabel,jdbcType=VARCHAR},
+		DATE_FORMAT(NOW(),'%Y-%m-%d %H:%i:%S'),
+		DATE_FORMAT(NOW(),'%Y-%m-%d %H:%i:%S')
+		)
+	</insert>
+	<!-- 修改WxMassTaskInfo 参数WxMassTaskInfo -->
+	<update id="updateWxMassTaskInfo" parameterType="com.lenovo.common.entity.cms.WxMassTaskInfo">
+		update
+		wx_mass_task_info
+		set
+		status=#{status,jdbcType=INTEGER}
+		where
+		id=#{id,jdbcType=INTEGER};
+	</update>
+	<!-- 删除 WxMassTaskInfo 根据id -->
+	<delete id="deleteWxMassTaskInfo" parameterType="java.lang.Integer">
+		delete from
+		wx_mass_task_info
+		where
+		id=#{id,jdbcType=INTEGER};
+	</delete>
+	<!-- 根据id查询WxMassTaskInfo -->
+	<select id="queryWxMassTaskInfoById" parameterType="java.lang.Integer" resultType="com.lenovo.common.entity.cms.WxMassTaskInfo">
+		select *
+		from
+		wx_mass_task_info
+		where
+		id=#{id,jdbcType=INTEGER};
+	</select>
+	<!-- 根据id查询 WxMassTaskInfo 列表 -->
+	<select id="queryWxMassTaskInfo" parameterType="java.lang.Integer" resultType="com.lenovo.common.entity.cms.WxMassTaskInfo">	
+		select *
+		from
+		wx_mass_task_info
+		where 
+		id=#{id,jdbcType=INTEGER};
+	</select>
+</mapper>
